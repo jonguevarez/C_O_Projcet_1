@@ -51,9 +51,13 @@ std::string Registers::imm_product(int opcode, int rs, int rt, int imm)
 	else if (opcode == 4)
 	 {
 			 end_str = "beq ";
+			
 
 	 }
-	else if (opcode ==5) end_str = "bne ";
+	else if (opcode == 5)
+	{
+			 end_str = "bne ";
+	}
 		 //maybe add the wierd ones?
 
 
@@ -63,7 +67,16 @@ std::string Registers::imm_product(int opcode, int rs, int rt, int imm)
 
 void Registers::address_check(int opcode, int rs, int rt, int imm)
 {
+	 if (opcode == 4)
+	 {
+	
+		 addresses.push_back(imm);
 
+	 }
+	else if (opcode == 5)
+	{
+		 addresses.push_back(imm);
+	}
 }
 
 Registers::~Registers()
