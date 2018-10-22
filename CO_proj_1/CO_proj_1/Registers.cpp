@@ -4,6 +4,7 @@
 
 Registers::Registers()
 {
+
 }
 
 std::string Registers::product(int opcode, int rs, int rt, int rd, int shamt, int funct )
