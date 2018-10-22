@@ -64,8 +64,10 @@ std::string Hex_Bin::bin(std::string hex)
 	
 
 }
-std::string Hex_Bin::split(std::string bin)
+std::string Hex_Bin::split(std::string bin, int pc)
 {
+	Registers reg;
+
 	//get opcode first to get things right
 	std::string one = bin.substr(0, 4);
 	//std::string two = bin.substr(4,4);
@@ -74,16 +76,17 @@ std::string Hex_Bin::split(std::string bin)
 	std::string _opcode = one + two_half;
 
 	const char *nummer = _opcode.c_str();
-	 opcode = strtoull(nummer, NULL, 2);
+	 int opcode = strtol(nummer, NULL, 2);
 	 //rs
 	 std::string _rs = bin.substr(6, 5);
 	 nummer = _rs.c_str();
-	 rs = strtoull(nummer, NULL, 2);
+	 rs = strtol(nummer, NULL, 2);
 	 //rt
 	 std::string _rt = bin.substr(11, 5);
 	 nummer = _rt.c_str();
-	 rt = strtoull(nummer, NULL, 2);
-
+	 rt = strtol(nummer, NULL, 2);
+	 
+	
 	if (opcode == 0)
 	{
 		//register stuff
@@ -91,16 +94,18 @@ std::string Hex_Bin::split(std::string bin)
 		//rd
 		std::string _rd = bin.substr(16, 5);
 		nummer = _rd.c_str();
-		rd = strtoull(nummer, NULL, 2);
+		rd = strtol(nummer, NULL, 2);
 		//shamt
 		std::string _shamt = bin.substr(21, 5);
 		nummer = _shamt.c_str();
-		shamt = strtoull(nummer, NULL, 2);
+		shamt = strtol(nummer, NULL, 2);
 		//funct
 		std::string _funct = bin.substr(26, 6);
 		nummer = _funct.c_str();
-		funct = strtoull(nummer, NULL, 2);
-
+		funct = strtol(nummer, NULL, 2);
+		std::string end = reg.product(opcode, rs, rt, rd, shamt, funct);
+		real_pc++;
+		return end;
 
 	}
 	else
@@ -108,13 +113,59 @@ std::string Hex_Bin::split(std::string bin)
 		//immediete stuff including bne's 
 		std::string _imm = bin.substr(16, 16);
 		nummer = _imm.c_str();
-		imm = strtoull(nummer, NULL, 2);
+		imm = strtol(nummer, NULL, 2);
+		std::string end_in = reg.imm_product(opcode, rs, rt, imm,real_pc);
+		if (opcode != 43 && opcode != 35)
+			real_pc++;
+		return end_in;
+
 	}
-	Registers reg;
-	std::string end= reg.product(opcode, rs, rt, rd, shamt, funct);
-	return end;
+
+
 }
 
+void Hex_Bin::pusher(std::string bin, int pc)
+{
+	Registers reg;
+
+	//get opcode first to get things right
+	std::string one = bin.substr(0, 4);
+	//std::string two = bin.substr(4,4);
+
+	std::string two_half = bin.substr(4, 2);
+	std::string _opcode = one + two_half;
+
+	const char *nummer = _opcode.c_str();
+	int opcode = strtol(nummer, NULL, 2);
+	//rs
+	std::string _rs = bin.substr(6, 5);
+	nummer = _rs.c_str();
+	rs = strtol(nummer, NULL, 2);
+	//rt
+	std::string _rt = bin.substr(11, 5);
+	nummer = _rt.c_str();
+	rt = strtol(nummer, NULL, 2);
+
+	if (opcode == 0)
+	{
+
+	}
+	else
+	{
+		std::string _imm = bin.substr(16, 16);
+		nummer = _imm.c_str();
+		imm = strtol(nummer, NULL, 2);
+		real_addresses = reg.address_check(opcode, rs, rt, imm, pc);
+		//std::string end_in = reg.imm_product(opcode, rs, rt, imm);
+	}
+}
+int Hex_Bin::show()
+{
+	int a=0;
+
+	return a;
+	
+}
 Hex_Bin::~Hex_Bin()
 {
 }
