@@ -69,7 +69,17 @@ std::string Registers::imm_product(int opcode, int rs, int rt, int imm, int pc)
 			 end_str = "beq ";
 			 end_str = end_str + reggies[rs] + ", ";
 			 end_str = end_str + reggies[rt] + ", ";
-			 int add = (imm + pc - 1) * 4;
+			 if (imm > 32769)
+			 {
+				 imm = imm - 65536;
+			 }
+			 int add = (imm + pc) * 4;
+			 if (add < 0)
+			 {
+				 add = (add / 4) + 1;
+				 add = add * 4;
+
+			 }
 			 if (add < 10) end_str = end_str + "Addr_000" + std::to_string(add);
 			 else if (add < 100) end_str = end_str + "Addr_00" + std::to_string(add);
 			 else if (add < 1000) end_str = end_str + "Addr_0" + std::to_string(add);
@@ -81,15 +91,25 @@ std::string Registers::imm_product(int opcode, int rs, int rt, int imm, int pc)
 			 end_str = "bne ";
 			 end_str = end_str + reggies[rs] + ", ";
 			 end_str = end_str + reggies[rt] + ", ";
-			 int add = (static_cast<int>(imm) + pc - 1) * 4;
-			 if (add < 10) end_str = end_str + "Addr_000" + std::to_string(add);
+			 if (imm > 32769)
+			 {
+				 imm = imm - 65536;
+			 }
+			 int add = (static_cast<int>(imm) + pc) * 4;
+			 if (add < 0)
+			 {
+				 add = (add / 4) + 1;
+				 add = add * 4;
+
+			 }
+			  if (add < 10) end_str = end_str + "Addr_000" + std::to_string(add);
 			 else if (add < 100) end_str = end_str + "Addr_00" + std::to_string(add);
 			 else if (add < 1000) end_str = end_str + "Addr_0" + std::to_string(add);
 			 else if (add < 10000) end_str = end_str + "Addr_" + std::to_string(add);
 	}
 		 //maybe add the wierd ones?
 
-		 if (opcode == 5 && opcode == 4 && opcode == 35 && opcode == 43)
+		 if (opcode != 5 && opcode != 4 && opcode != 35 && opcode != 43)
 		 {
 			 end_str = end_str + reggies[rt] + ",";
 			 end_str = end_str + reggies[rs] + ",";

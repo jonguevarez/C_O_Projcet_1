@@ -115,7 +115,7 @@ std::string Hex_Bin::split(std::string bin, int pc)
 		nummer = _imm.c_str();
 		imm = strtol(nummer, NULL, 2);
 		std::string end_in = reg.imm_product(opcode, rs, rt, imm,real_pc);
-		if (opcode != 43 && opcode != 35)
+		//if (opcode != 43 && opcode != 35)
 			real_pc++;
 		return end_in;
 
