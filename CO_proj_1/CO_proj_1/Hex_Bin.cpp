@@ -155,7 +155,8 @@ void Hex_Bin::pusher(std::string bin, int pc)
 		std::string _imm = bin.substr(16, 16);
 		nummer = _imm.c_str();
 		imm = strtol(nummer, NULL, 2);
-		real_addresses = reg.address_check(opcode, rs, rt, imm, pc);
+		if(opcode == 5 || opcode == 4)
+		real_addresses.push_back( reg.address_check(opcode, rs, rt, imm, pc));
 		//std::string end_in = reg.imm_product(opcode, rs, rt, imm);
 	}
 }

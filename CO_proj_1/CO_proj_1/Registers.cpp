@@ -20,15 +20,32 @@ std::string Registers::product(int opcode, int rs, int rt, int rd, int shamt, in
 	else if (funct == 37) end_str = "or ";
 	else if (funct == 42) end_str = "slt ";
 	else if (funct == 43) end_str = "sltu ";
-	else if (funct == 00) end_str = "sll ";
-	else if (funct == 02) end_str = "srl ";
+	else if (funct == 00)
+		 {
+			 end_str = "sll ";
+			 end_str = end_str + reggies[rd] + ", ";
+			 end_str = end_str + reggies[rt] + ", ";
+			 end_str = end_str + std::to_string(shamt);
+		 }
+	else if (funct == 02) 
+		 {
+			 end_str = "srl ";
+			 end_str = end_str + reggies[rd] + ", ";
+			 end_str = end_str + reggies[rt] + ", ";
+			 end_str = end_str + std::to_string(shamt);
+		 }
 	else if (funct == 34) end_str = "sub ";
 	else if (funct == 35) end_str = "subu ";
 	else if (funct == 33) end_str = "addu ";
 
-	end_str = end_str + reggies[rd] + ", ";
-	end_str = end_str + reggies[rs] + ", ";
-	end_str = end_str + reggies[rt] + " ";
+		 if (funct !=00 && funct !=02)
+		 {
+
+
+			 end_str = end_str + reggies[rd] + ", ";
+			 end_str = end_str + reggies[rs] + ", ";
+			 end_str = end_str + reggies[rt] + " ";
+		 }
 	return end_str;
 }
 
@@ -119,19 +136,29 @@ std::string Registers::imm_product(int opcode, int rs, int rt, int imm, int pc)
 	return end_str;
 }
 
-std::vector<int> Registers::address_check(int opcode, int rs, int rt, int imm, int pc)
+int Registers::address_check(int opcode, int rs, int rt, int imm, int pc)
 {
-	 if (opcode == 4)
+	if (imm > 32769)
+	{
+		imm = imm - 65536;
+	}
+	int add = (static_cast<int>(imm) + pc);
+	if (add < 0)
+	{
+		add = add + 1;
+		
+
+	}
+
+	 if (opcode == 4 || opcode == 5)
 	 {
 		
-		 addresses.push_back(imm+pc);
+		 //knicks.push_back(add);
+		 
 
 	 }
-	else if (opcode == 5)
-	{
-		 addresses.push_back(imm+pc);
-	}
-	 return addresses;
+
+	 return add;
 }
 
 Registers::~Registers()
