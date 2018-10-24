@@ -9,17 +9,33 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
 	Hex_Bin a;
+	std::vector<std::string> args;
 	int o;
 	vector<string> input_lines;
 	vector<int> past_addr;
-	
+	for (auto i = 1; i < argc; ++i) {
+		args.push_back(argv[i]);
+	}
+	if (args.size() < 1 || args.size() > 3) {
+		//extern const char *__progname;
+		std::cerr << "Usage: " << "simmips" << " [file name]" << std::endl;
+		return EXIT_FAILURE;
+	}
 	//opening file to extract
+	std::string suffix = args[1];
+	suffix = suffix.substr(suffix.size() - 4, 4);
 	ifstream in;
-	ofstream out("test_case1.s");
-	in.open("test_case1.obj");
+	if (args[0] != "myDisassembler")
+		return EXIT_FAILURE;
+	if ( suffix != ".obj")
+		return EXIT_FAILURE;
+	
+	in.open(args[1]);
+	ofstream out("test_case.s");
+	
 	//out.open("test_case1.s");
 	string hex;
 	string _binary;
@@ -112,13 +128,13 @@ int main()
   		pc++;
 	}
 
-	cout << a.real_addresses.size() << endl;
-	string bin = a.bin(hex);
- 	std::string fina = a.split(bin,counter);
-	cout << hex << endl;
-	cout << fina << endl;
-	cout << bin << endl;
-	cout << "Hello World" << endl;
+//	cout << a.real_addresses.size() << endl;
+//	string bin = a.bin(hex);
+ //	std::string fina = a.split(bin,counter);
+//	cout << hex << endl;
+	//cout << fina << endl;
+//	cout << bin << endl;
+//	cout << "Hello World" << endl;
 	cin >> o;
 	return 0;
 

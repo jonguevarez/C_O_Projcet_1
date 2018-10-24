@@ -14,6 +14,20 @@ std::string Registers::product(int opcode, int rs, int rt, int rd, int shamt, in
 							 "$s7","$t8","$t9","$k0","$k1","$gp","$sp","$fp","$ra" };
 	
 	std::string end_str = "";
+
+	if (rs < 0 || rs>=31)
+	{
+		//error
+	}
+	else if (rt < 0 || rt>=31)
+	{
+		//error
+	}
+	else if (rd < 0 || rd>=31)
+	{
+		//error
+	}
+
 		 if (funct == 32) end_str = "add ";
 	else if (funct == 36) end_str = "and ";
 	else if (funct == 39) end_str = "nor ";
@@ -56,7 +70,18 @@ std::string Registers::imm_product(int opcode, int rs, int rt, int imm, int pc)
 						 "$s7","$t8","$t9","$k0","$k1","$gp","$sp","$fp","$ra" };
 
 	std::string end_str = "";
-
+	if (rs < 0 || rs>=31)
+	{
+		//error
+	}
+	else if (rt < 0 || rt>=31)
+	{
+		//error
+	}
+	else 
+	{
+		//error
+	}
 		 if (opcode == 8) end_str = "addi ";
 	else if (opcode == 9) end_str = "addiu ";
 	else if (opcode == 10) end_str = "slti ";

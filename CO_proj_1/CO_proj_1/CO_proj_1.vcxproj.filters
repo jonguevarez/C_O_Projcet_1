@@ -42,7 +42,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test_case1.s">
+    <None Include="test_case.s">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
